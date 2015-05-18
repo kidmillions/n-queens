@@ -113,13 +113,11 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      //iterate through matrix
       for (var i = 0; i < this.rows().length; i++) {
         if (this.hasColConflictAt(i)) {
           return true;
         }
       }
-
       return false;
     },
 
@@ -130,12 +128,23 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var count = 0;
+      var rowCount = 0;
+      for(var i = majorDiagonalColumnIndexAtFirstRow; i < this.rows().length; i++) {
+        count += this.get(rowCount)[i];
+        rowCount++;
+      }
+      return count > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      for (var i = 0; i < this.rows().length; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
