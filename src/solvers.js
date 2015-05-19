@@ -37,8 +37,6 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-//input is width/height of board and number of rooks
-//output is number of total possible solutions
 var counter = 0;
 var board = new Board({n: n});
   var countBoards = function(currentRow, currentBoard) {
@@ -47,6 +45,7 @@ var board = new Board({n: n});
       if (!currentBoard.hasColConflictAt(i)) {
         if (currentRow === (n - 1)) {
           counter++;
+          currentBoard.togglePiece(currentRow, i);
           return;
         }
         countBoards(currentRow+1, currentBoard);
@@ -56,85 +55,6 @@ var board = new Board({n: n});
   };
   countBoards(0, board);
   return counter;
-
-
-
-//start at top left corner of the board
-//iterate through each column
-  //if no column conflict,
-    //add a piece to that space
-    //if this space is on the final row
-      //add to solution count, and leave function
-  //recusively call on the next row
-  //piece should be removed after the recursive call
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // var solutionCount = 0;
-  // var board = new Board({n: n});
-  // // debugger;
-  // var findAllNonConflicts = function(currentRow, currentBoard, numRooks) {
-  //   //if at end of the decision tree, no more rooks
-  //     //increment solution count
-
-  //   if (numRooks === 0) {
-  //     solutionCount++;
-  //     console.log("current count: " + solutionCount + " for " + n + " rooks." )
-  //     console.log(currentBoard.rows());
-  //     return;
-  //   }
-
-  //   if (currentRow > currentBoard.rows().length - 1) {
-  //     return;
-  //   }
-
-  //   var values = currentBoard.rows().slice();
-  //   var newBoard = new Board(values);
-
-  //   for(var i = 0; i < newBoard.rows().length; i++){
-  //     //clear the row
-  //     newBoard.togglePiece(currentRow, i);
-  //     if(newBoard.hasColConflictAt(i)) {
-  //       findAllNonConflicts(currentRow + 1, newBoard, numRooks);
-  //     }
-
-  //     if (!(newBoard.hasColConflictAt(i))) {
-  //       numRooks--;
-  //       findAllNonConflicts(currentRow + 1, newBoard, numRooks);
-  //     }
-  //     console.log(newBoard.rows)
-  //     newBoard.togglePiece(currentRow, i);
-
-  //     //if there is conflict with the column
-  //       //
-
-  //   }
-  // };
-
-  // findAllNonConflicts(0, board, n);
-
-  // console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  // return solutionCount;
 };
 
 
