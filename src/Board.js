@@ -51,7 +51,7 @@
     },
 
     hasAnyQueensConflicts: function() {
-      return this.hasAnyRooksConflicts() || this.hasAnyMajorDiagonalConflicts() || this.hasAnyMinorDiagonalConflicts();
+      return this.hasAnyRooksConflicts() || this.hasAnyMajorDiagonalConflicts() || this.hasAnyMinorDiagonalConflicts() || this.hasAnyUpwardDiagonalConflict();
     },
 
     _isInBounds: function(rowIndex, colIndex) {
@@ -139,6 +139,16 @@
       return count > 1;
     },
 
+    hasAnyUpwardDiagonalConflict: function(){
+      for(var i = 1; i <this.rows().length; i++){
+        for(var j = 0; j < this.rows().length; j++){
+          if (this.hasUpwardMajorDiagonalConflictAt(j, i) || this.hasUpwardMinorDiagonalConflictAt(j, i)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
     hasUpwardMinorDiagonalConflictAt: function(column, row) {
       var count = 0;
       for (var i = row; i >= 0; i--) {
@@ -150,7 +160,6 @@
       }
       return count > 1;
     },
-
 
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
