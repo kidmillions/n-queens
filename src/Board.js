@@ -125,7 +125,33 @@
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
-    //
+
+
+    hasUpwardMajorDiagonalConflictAt: function(column, row) {
+      var count = 0;
+      for (var i = row; i >= 0; i--) {
+        if (column < 0) {
+          break;
+        }
+        count += this.get(i)[column];
+        column--;
+      }
+      return count > 1;
+    },
+
+    hasUpwardMinorDiagonalConflictAt: function(column, row) {
+      var count = 0;
+      for (var i = row; i >= 0; i--) {
+        if (column > (this.rows().length - 1)) {
+          break;
+        }
+        count += this.get(i)[column];
+        column++;
+      }
+      return count > 1;
+    },
+
+
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       var count = 0;
@@ -134,6 +160,8 @@
         count += this.get(rowCount)[i];
         rowCount++;
       }
+      // for()
+
       return count > 1;
     },
 
