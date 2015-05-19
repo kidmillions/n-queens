@@ -63,29 +63,31 @@ window.countNRooksSolutions = function(n) {
 window.findNQueensSolution = function(n) {
   var board = new Board({n: n});
   var foundSolution = false;
+  var solution;
+
   if (n === 2 || n === 3) {
       return board.rows();
   }
 
+  if (n === 0) {
+    return new Board({n: 0}).rows();
+  }
+
   var findSolutions = function(currentBoard, currentRow, numQueens) {
-    if(numQueens === 0){
-      foundSolution = true;
-      if(n === 0){
-        currentBoard = new Board({n: 0});
-      }
-      solution = currentBoard.rows();
-    }
-    if (!foundSolution) {
       for(var i = 0; i < n; i++){
         currentBoard.togglePiece(currentRow, i);
         if(!currentBoard.hasAnyQueensConflicts() && !currentBoard.hasUpwardMajorDiagonalConflictAt(i, currentRow) && !currentBoard.hasUpwardMinorDiagonalConflictAt(i, currentRow)){
+          if (numQueens - 1 === 0) {
+            solution = currentBoard.rows();
+            currentBoard.togglePiece(currentRow, i);
+            return;
+          }
           findSolutions(currentBoard, currentRow+1, numQueens -1);
         }
         if (!foundSolution) {
           currentBoard.togglePiece(currentRow, i);
         }
       }
-    }
   };
 
   findSolutions(board, 0, n);
