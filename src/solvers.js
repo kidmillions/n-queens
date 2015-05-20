@@ -20,7 +20,7 @@ window.findBoards = function(currentRow, currentBoard, n, validator, callback) {
 
     for (var i = 0; i < n; i++) {
       currentBoard.togglePiece(currentRow, i);
-      if (!currentBoard[validator]()) {
+      if (!currentBoard[validator](currentRow, i)) {
         var result = findBoards(currentRow+1, currentBoard, n, validator, callback);
         if(result) {
           return result;
@@ -33,8 +33,8 @@ window.findBoards = function(currentRow, currentBoard, n, validator, callback) {
 
 window.findNRooksSolution = function(n) {
 
-    var board = new Board({n: n});
-  var solution = findBoards(0, board, n, "hasAnyRooksConflicts", function(){
+  var board = new Board({n: n});
+  var solution = findBoards(0, board, n, "hasAnyRookConflictsOn", function(){
     return _.map(board.rows(), function(row){
         return row.slice();
       });
@@ -51,7 +51,7 @@ window.findNRooksSolution = function(n) {
 window.countNRooksSolutions = function(n) {
   var counter = 0;
   var board = new Board({n: n});
-  findBoards(0, board, n, "hasAnyRooksConflicts", function() {
+  findBoards(0, board, n, "hasAnyRookConflictsOn", function() {
     counter++;
   });
   console.log("searched "+ n + " found " + counter + " solutions");
@@ -63,7 +63,7 @@ window.countNRooksSolutions = function(n) {
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var board = new Board({n: n});
-  var solution = findBoards(0, board, n, "hasAnyQueensConflicts", function(){
+  var solution = findBoards(0, board, n, "hasAnyQueenConflictsOn", function(){
     return _.map(board.rows(), function(row){
       return row.slice();
     });
@@ -77,7 +77,7 @@ window.findNQueensSolution = function(n) {
 window.countNQueensSolutions = function(n) {
   var counter = 0;
   var board = new Board({n: n});
-  findBoards(0, board, n, "hasAnyQueensConflicts", function(){
+  findBoards(0, board, n, "hasAnyQueenConflictsOn", function(){
     counter++;
   });
   console.log('Number of solutions for ' + n + ' queens:', counter);
